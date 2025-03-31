@@ -22,7 +22,7 @@ void adc_1_task(void *p) {
         result = adc_read();
         printf("voltage 1: %f V\n", result * conversion_factor);
 
-        // CÓDIGO AQUI
+        // CÓDIGO AQUI///
 
 
 
