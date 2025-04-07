@@ -25,29 +25,26 @@ void data_task(void *p) {
 
 void process_task(void *p) {
     int data = 0;
-    int window[5] = {0};
-    int count = 0;
+    int mem[5]; 
+    int index = 0;
 
     while (true) {
         if (xQueueReceive(xQueueData, &data, 100)) {
             // implementar filtro aqui!
             
-            for (int i = 0; i < 4; i++) {
-                window[i] = window[i + 1];
-            }
-            window[4] = data;
-
-            if (count < 5) count++;
-
-            // Calcula a média
-            int sum = 0;
-            for (int i = 0; i < count; i++) {
-                sum += window[i];
-            }
-            float average = sum / (float)count;
-
-            // Imprime na UART
-            printf("Filtrado: %.2f\n", average);
+            mem[index] = data;
+                int sum = 0;
+                for(int i = 0; i<5;i++){
+                    sum += mem[i];
+                }
+                int avg = sum/5;
+                index++;
+                
+                if(index >=5){
+                    index = 0;
+                }
+    
+                printf("%d\n",avg);
 
 
             // deixar esse delay!
