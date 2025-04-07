@@ -25,11 +25,31 @@ void data_task(void *p) {
 
 void process_task(void *p) {
     int data = 0;
+    static int buffer[5] = {0};
+    static int sum = 0;
+    static int count = 0;
+    static int index = 0;
 
     while (true) {
         if (xQueueReceive(xQueueData, &data, 100)) {
             // implementar filtro aqui!
-
+            if (count < 5) {
+                sum += data;
+                buffer[index] = data;
+                index = (index + 1) % 5;
+                count++;
+                if (count == 5) {
+                    int average = sum / 5;
+                    printf("%d\n", average);
+                }
+            } else {
+                sum -= buffer[index];
+                sum += data;
+                buffer[index] = data;
+                index = (index + 1) % 5;
+                int average = sum / 5;
+                printf("%d\n", average);
+            }
 
 
 
